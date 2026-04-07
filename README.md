@@ -8,6 +8,27 @@ A CUDA-accelerated volume renderer for [Foundry Nuke](https://www.foundry.com/pr
 
 **This project is experimental and not production-ready. It may never be. Use at your own risk. Quality is not bad, but not for AAA VFX projects.**
 
+## Quick Start — Converting VDB to CVDB
+
+VDBRender reads `.cvdb` files, not `.vdb` directly. Use the [vdb2cvdb](https://github.com/petermercell/CVDB) converter to compress your OpenVDB volumes:
+
+```bash
+# Single file
+./vdb2cvdb explosion.vdb -k 8192 -i 50 -s 400000
+
+# Batch sequence
+./vdb2cvdb /path/to/vdb_sequence/ -o /path/to/output/ -k 8192 -i 50 -s 400000
+```
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `-k` | Codebook size (number of centroids) | 4096 |
+| `-i` | K-means iterations | 50 |
+| `-s` | Training subsample size (0 = all) | 0 |
+| `-o` | Output directory (batch mode) | — |
+
+For animated sequences with temporal coherence, see the [CVDB temporal encoder](https://github.com/petermercell/CVDB).
+
 ## Origin
 
 This project is a complete GPU rewrite of [VDBmarcher](https://github.com/bratgot/VDBmarcher) by **Marten Blumen**, who conceived the idea of a dedicated ray marching renderer for codebook-compressed VDB volumes inside Nuke. VDBRender rebuilds the concept from scratch in CUDA/C++ with a production feature set. GPU rewrite by **Peter Mercell** and **Claude** (Anthropic).
