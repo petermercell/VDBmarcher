@@ -1,0 +1,14 @@
+export PATH=/usr/local/cuda-12.8/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-12.8/lib64:$LD_LIBRARY_PATH
+
+rm -rf build && mkdir build && cd build
+
+
+cmake .. -DNUKE_VERSION=17.0v1 \
+    -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
+    -DCMAKE_CUDA_FLAGS="--diag-suppress=1444"
+    
+    
+make -j8
+
+
